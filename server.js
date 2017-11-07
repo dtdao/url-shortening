@@ -34,12 +34,11 @@ app.get("/new/:url(*)", function(req, res){
       console.log(urlvalid.parse(url).tldExists)
       collection.findOne({"url": url}, {short: 1, _id: 0}, function(err, data){
         if(data != null){
-          console.log("old")
+
           res.json({url: url, short:"https://url-shortening.glitch.me/"+data.short})
           db.close()
         }
         else {
-          console.log("new")
           var newid = shortid.generate()
           res.json({url: url,short: "https://url-shortening.glitch.me/"+newid})
           collection.insert([{url: url, short: newid}])
